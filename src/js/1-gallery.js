@@ -70,54 +70,30 @@ const images = [
 ];
 
 function getImageItem({ preview, original, description }) {
-  // const listItem = document.createElement('li');
-  // listItem.className = 'gallery-item';
-
-  // const link = document.createElement('a');
-  // link.className = 'gallery-link';
-  // link.href = original;
-
-  // const image = document.createElement('img');
-  // image.className = 'gallery-image';
-  // image.src = preview;
-  // image.setAttribute('data-source', original);
-  // image.alt = description;
-
-  // link.appendChild(image);
-  // listItem.appendChild(link);
-
   return `<li class="gallery-item">
     <a class="gallery-link" href="${original}">
-      <img 
-        class="gallery-image" 
-        src="${preview}" 
-        alt="${description}" 
+      <img
+        class="gallery-image"
+        src="${preview}"
+        alt="${description}"
         />
     </a>
   </li>`;
 }
 
-const parser = new DOMParser();
 const gallery = document.querySelector('ul.gallery');
+const fragment = document.createElement('div');
+
+let galleryHTML = '';
 
 for (const image of images) {
-  const item = getImageItem(image);
-  gallery.appendChild(parser.parseFromString(item, 'text/html').body);
+  galleryHTML += getImageItem(image);
 }
 
-// gallery.addEventListener('click', event => {
-//   event.preventDefault();
-
-//   let imgElement = event.target.closest('.gallery-image');
-//   if (imgElement) {
-//     let imgSrc = imgElement.dataset.source;
-//     const instance = basicLightbox.create(`<img src="${imgSrc}" >`);
-//     instance.show();
-//   }
-// });
+fragment.innerHTML = galleryHTML;
+gallery.append(...fragment.children);
 
 const lightbox = new SimpleLightbox('ul.gallery a', {
-  captions: true,
   captionsData: 'alt',
   captionDelay: 250,
 });

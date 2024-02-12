@@ -11,6 +11,8 @@ if (save) {
 }
 
 function onInput(ev) {
+  if (!email.value.trim() || !message.value.trim()) return;
+
   localStorage.setItem(
     key,
     JSON.stringify({
@@ -22,7 +24,7 @@ function onInput(ev) {
 
 function onSubmit(ev) {
   ev.preventDefault();
-  if (!email.value || !message.value) return;
+  if (!email.value.trim() || !message.value.trim()) return;
 
   console.log(JSON.parse(localStorage.getItem(key)));
   localStorage.removeItem(key);
